@@ -1,0 +1,195 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title></title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+<style>
+#wrap {
+  width:40%;
+  min-width:320px;
+  margin:0 auto;
+}
+#card {
+  padding: 40% 0;
+  width:100%;
+  font-size:3em;
+  text-align:center;
+}
+#navbuttonsfront {
+  padding:10px;
+  text-align:center;
+}
+
+#navbuttonsback {
+  padding:10px;
+  text-align:center;
+}
+
+#navbuttonsback input {
+  width:60px;
+}
+.flip {
+  color:black;
+  text-decoration:none;
+  font-size:2em;
+}
+</style>
+
+
+<script>
+
+var vocab = [{'front':'drink','back':'beber'},
+	{'front':'eat','back':'comer'},
+	{'front':'see','back':'ver'},
+	{'front':'be','back':'ser'},
+	{'front':'to be temporary qualities','back':'estar'},
+	{'front':'to have','back':'tener'},
+	{'front':'to make or do','back':'hacer'},
+	{'front':'to be able to, can','back':'poder'},
+	{'front':'to say or to tell','back':'decir'},
+	{'front':'to go','back':'ir'},
+	{'front':'to take a drink','back':'tomar'},
+	];
+var current = 0;
+var sideup = "F";
+
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length; i; i--) {
+        j = Math.floor(Math.random() * i);
+        x = a[i - 1];
+        a[i - 1] = a[j];
+        a[j] = x;
+    }
+}
+
+function arraymove(arr, fromIndex, toIndex) {
+    var element = arr[fromIndex];
+    arr.splice(fromIndex, 1);
+    arr.splice(toIndex, 0, element);
+}
+
+function setCardF() {
+  //$('#navbuttonsfront').toggle();
+  //$('#navbuttonsback').toggle();
+  $('#card').html(vocab[0].front);
+}
+
+function setCardR() {
+  //$('#navbuttonsfront').toggle();
+  //$('#navbuttonsback').toggle();
+  $('#card').html(vocab[0].back);
+}
+
+
+function next(howwell) {
+  switch(howwell) {
+    case 1:
+	arraymove(vocab, 0, 2);
+    break;
+    case 2:
+	//move 1/4 down the stack
+	var moveto = Math.floor(0.25 * vocab.length)
+	arraymove(vocab, 0, moveto);
+    break;
+    case 3:
+	//move 1/2
+	var moveto = Math.floor(0.5 * vocab.length)
+	arraymove(vocab, 0, moveto);
+    break;
+    case 4:
+	//move 3/4
+	var moveto = Math.floor(0.75 * vocab.length)
+	arraymove(vocab, 0, moveto);
+    break;
+    default:
+	if(vocab.length==1) { alert('We\'re done here'); }
+	else { vocab.shift(); }
+    break;
+  }
+  console.log(vocab);
+  setCardF();
+}
+
+
+$( document ).ready(function() {
+
+    // click flip button, flip it
+    $('#flipit').click(function() {
+	if(sideup == 'F') 	{ sideup = 'R'; setCardR(); }
+        else 			{ sideup = 'F'; setCardF(); }
+    });
+    // click on the card, flip it
+    $('#card').click(function() {
+	if(sideup == 'F') 	{ sideup = 'R'; setCardR(); }
+        else 			{ sideup = 'F'; setCardF(); }
+    });
+
+
+    $( document ).keypress(function( event ) {
+    // press number 1
+      if ( event.which == 49 ) {
+	 next(1);
+      }
+    // press number 2
+      if ( event.which == 50 ) {
+	 next(2);
+      }
+    // press number 3
+      if ( event.which == 51 ) {
+	 next(3);
+      }
+    // press number 4
+      if ( event.which == 52 ) {
+	 next(4);
+      }
+    // press number 5
+      if ( event.which == 53 ) {
+	 next(5);
+      }
+    // hit space bar, flip
+      if ( event.which == 32 ) {
+	if(sideup == 'F') 	{ sideup = 'R'; setCardR(); }
+        else 			{ sideup = 'F'; setCardF(); }
+      }
+         event.preventDefault();
+    });
+
+    shuffle(vocab);
+    console.log(vocab);
+    setCardF();
+
+});
+
+
+</script>
+
+</head>
+
+<body>
+
+<div id="wrap" >
+  <div id="card"></div>
+  <div id="navbuttonsfront">
+	<div id="nav"><a href="#" id="flipit"  class="flip fa fa-exchange" alt="flip"></a></div>
+  </div>
+  
+  <div id="navbuttonsback">
+	<input type="button" onclick="next(1)" value="1"/> 
+	<input type="button" onclick="next(2)" value="2"/> 
+	<input type="button" onclick="next(3)" value="3"/> 
+	<input type="button" onclick="next(4)" value="4"/> 
+	<input type="button" onclick="next(5)" value="5"/> 
+  </div>
+ 
+</div>
+
+
+</body>
+</html>
