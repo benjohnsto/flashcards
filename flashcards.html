@@ -9,38 +9,9 @@
   <meta name="author" content="SitePoint">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-<style>
-#wrap {
-  width:40%;
-  min-width:320px;
-  margin:0 auto;
-}
-#card {
-  padding: 40% 0;
-  width:100%;
-  font-size:3em;
-  text-align:center;
-}
-#navbuttonsfront {
-  padding:10px;
-  text-align:center;
-}
+<link href="css/style.css" media="all" rel="stylesheet" />
 
-#navbuttonsback {
-  padding:10px;
-  text-align:center;
-}
-
-#navbuttonsback input {
-  width:60px;
-}
-.flip {
-  color:black;
-  text-decoration:none;
-  font-size:2em;
-}
-</style>
-
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"> 
 
 <script>
 
@@ -90,6 +61,7 @@ function setCardR() {
 
 function next(howwell) {
   switch(howwell) {
+    // move two cards down
     case 1:
 	arraymove(vocab, 0, 2);
     break;
@@ -108,12 +80,22 @@ function next(howwell) {
 	var moveto = Math.floor(0.75 * vocab.length)
 	arraymove(vocab, 0, moveto);
     break;
+
+	// consider card known, remove from stack
     default:
 	if(vocab.length==1) { alert('We\'re done here'); }
 	else { vocab.shift(); }
     break;
+
+    case 'end':
+	//move to the end of the stack
+	arraymove(vocab, 0, vocab.length-1);
+	console.log(vocab);
+    break;
+
+
   }
-  console.log(vocab);
+
   setCardF();
 }
 
@@ -158,8 +140,32 @@ $( document ).ready(function() {
 	if(sideup == 'F') 	{ sideup = 'R'; setCardR(); }
         else 			{ sideup = 'F'; setCardF(); }
       }
+
+    // right arrow
+      if ( event.which > 36) {
+	console.log(event.which);
+	//next(3);
+      }
+
          event.preventDefault();
     });
+
+
+
+
+    // arrow keys ony seem to work with keydown
+    $( document ).keydown(function( event ) {
+
+    // right arrow
+      if ( event.which == 39) {
+	next('end');
+      }
+
+         event.preventDefault();
+    });
+
+
+
 
     shuffle(vocab);
     console.log(vocab);
