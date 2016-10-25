@@ -8,13 +8,14 @@
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-<link href="css/style.css" media="all" rel="stylesheet" />
+  <script src="js/googlesheets.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link href="css/style.css" media="all" rel="stylesheet" />
 
-<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"> 
 
 <script>
-
+/*
 var vocab = [{'front':'drink','back':'beber'},
 	{'front':'eat','back':'comer'},
 	{'front':'see','back':'ver'},
@@ -27,6 +28,15 @@ var vocab = [{'front':'drink','back':'beber'},
 	{'front':'to go','back':'ir'},
 	{'front':'to take a drink','back':'tomar'},
 	];
+
+*/
+
+var spreadsheet_key = "1XMQuHKu4ELaPLsO-WBzIsjdG_ssKt5rhcszsdYuwRYs";
+
+var vocab = getGoogleSheetsVocab(spreadsheet_key);
+console.log(vocab);
+
+
 var current = 0;
 var sideup = "F";
 
@@ -47,14 +57,12 @@ function arraymove(arr, fromIndex, toIndex) {
 }
 
 function setCardF() {
-  //$('#navbuttonsfront').toggle();
-  //$('#navbuttonsback').toggle();
+  sideup = 'F';
   $('#card').html(vocab[0].front);
 }
 
 function setCardR() {
-  //$('#navbuttonsfront').toggle();
-  //$('#navbuttonsback').toggle();
+  sideup = 'R';
   $('#card').html(vocab[0].back);
 }
 
@@ -90,7 +98,6 @@ function next(howwell) {
     case 'end':
 	//move to the end of the stack
 	arraymove(vocab, 0, vocab.length-1);
-	console.log(vocab);
     break;
 
 
@@ -114,7 +121,12 @@ $( document ).ready(function() {
     });
 
 
-    $( document ).keypress(function( event ) {
+
+
+
+
+    $( document ).keydown(function( event ) {
+
     // press number 1
       if ( event.which == 49 ) {
 	 next(1);
@@ -135,36 +147,20 @@ $( document ).ready(function() {
       if ( event.which == 53 ) {
 	 next(5);
       }
-    // hit space bar, flip
+
+    // right arrow = move current card to the end of the stack
+      if ( event.which == 39) {
+	next('end');
+      }
+
+    // space bar = flip
       if ( event.which == 32 ) {
 	if(sideup == 'F') 	{ sideup = 'R'; setCardR(); }
         else 			{ sideup = 'F'; setCardF(); }
       }
 
-    // right arrow
-      if ( event.which > 36) {
-	console.log(event.which);
-	//next(3);
-      }
-
          event.preventDefault();
     });
-
-
-
-
-    // arrow keys ony seem to work with keydown
-    $( document ).keydown(function( event ) {
-
-    // right arrow
-      if ( event.which == 39) {
-	next('end');
-      }
-
-         event.preventDefault();
-    });
-
-
 
 
     shuffle(vocab);
@@ -193,6 +189,8 @@ $( document ).ready(function() {
 	<input type="button" onclick="next(4)" value="4"/> 
 	<input type="button" onclick="next(5)" value="5"/> 
   </div>
+
+  <div>Use the space bar to flip or click on the current word. Pressing the right arrow key will move the current card to end of the stack. Click one of the numbered buttons or corresponding number keys to indicate your understanding of this card. A '1' indicates that you do not know the information well and the cards is repeated again soon. Pressing 2 moves the card 1/4 of the way down the stack, a 2, 1/2, and 4, 3/4.  A '5' indicates that you know the information completely and the card is removed from the stack.</div>
  
 </div>
 
