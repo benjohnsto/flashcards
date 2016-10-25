@@ -10,7 +10,6 @@ function getGoogleSheetsVocab(spreadsheet_key) {
 	  url: url,
           success: function (data) {
 	    $.each(data.feed.entry, function(index,val){
-	        //console.log(val);
 		var o = {"front":val.gsx$front.$t,"back":val.gsx$back.$t};
 	   	vocab.push(o);
 	    });

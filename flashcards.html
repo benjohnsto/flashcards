@@ -16,25 +16,12 @@
 
 <script>
 /*
-var vocab = [{'front':'drink','back':'beber'},
-	{'front':'eat','back':'comer'},
-	{'front':'see','back':'ver'},
-	{'front':'be','back':'ser'},
-	{'front':'to be temporary qualities','back':'estar'},
-	{'front':'to have','back':'tener'},
-	{'front':'to make or do','back':'hacer'},
-	{'front':'to be able to, can','back':'poder'},
-	{'front':'to say or to tell','back':'decir'},
-	{'front':'to go','back':'ir'},
-	{'front':'to take a drink','back':'tomar'},
-	];
-
+var vocab = [{'front':'drink','back':'beber'}, {'front':'eat','back':'comer'}];
 */
 
 var spreadsheet_key = "1XMQuHKu4ELaPLsO-WBzIsjdG_ssKt5rhcszsdYuwRYs";
 
 var vocab = getGoogleSheetsVocab(spreadsheet_key);
-console.log(vocab);
 
 
 var current = 0;
@@ -190,8 +177,8 @@ $( document ).ready(function() {
 	<input type="button" onclick="next(5)" value="5"/> 
   </div>
 
-  <div id="#" onclick="showhelp()">Help</div>
-  <div style="display:none">Use the space bar to flip or click on the current word. Pressing the right arrow key will move the current card to end of the stack. Click one of the numbered buttons or corresponding number keys to indicate your understanding of this card. A '1' indicates that you do not know the information well and the cards is repeated again soon. Pressing 2 moves the card 1/4 of the way down the stack, a 2, 1/2, and 4, 3/4.  A '5' indicates that you know the information completely and the card is removed from the stack.</div>
+  <div><a href="#" onclick="showHelp()">Help</a></div>
+  <div id="help" style="display:none">Use the space bar to flip or click on the current word. Pressing the right arrow key will move the current card to end of the stack. Click one of the numbered buttons or corresponding number keys to indicate your understanding of this card. A '1' indicates that you do not know the information well and the cards is repeated again soon. Pressing 2 moves the card 1/4 of the way down the stack, a 2, 1/2, and 4, 3/4.  A '5' indicates that you know the information completely and the card is removed from the stack.</div>
  
 </div>
 
